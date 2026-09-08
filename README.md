@@ -9,6 +9,7 @@
 | concise-output | 控制输出规模，避免长回复被截断 |
 | context-budget | 审计并减少上下文与 Token 浪费 |
 | evidence-research | 多来源检索、证据分级与交叉核验 |
+| grafana-pie-chart | Grafana 饼图（piechart）面板创建/修改的标准化流程，基于 ClickHouse 数据源 |
 | memory-curator | 管理 WorkBuddy 的持久记忆和任务交接 |
 | stock-deep-research | A 股基本面、财报、估值和深度研究 |
 | tech-mentor | 面向知识、技能与修养主题的学以致用教学流程 |
