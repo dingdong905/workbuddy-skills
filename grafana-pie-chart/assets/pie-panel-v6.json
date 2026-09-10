@@ -1,7 +1,7 @@
 {
   "datasource": {
     "type": "grafana-clickhouse-datasource",
-    "uid": "clickhouse"
+    "uid": "<ds-uid>"
   },
   "fieldConfig": {
     "defaults": {
@@ -23,7 +23,7 @@
       {
         "matcher": {
           "id": "byName",
-          "options": "月账单"
+          "options": "<数值列别名>"
         },
         "properties": [
           {
@@ -35,7 +35,7 @@
       {
         "matcher": {
           "id": "byName",
-          "options": "客户"
+          "options": "<标签列别名>"
         },
         "properties": [
           {
@@ -43,8 +43,8 @@
             "value": [
               {
                 "targetBlank": false,
-                "title": "下钻查看该客户明细",
-                "url": "/d/***REMOVED***?var-user=${__value.text:percentencode}&${__url_time_range}"
+                "title": "下钻查看该项明细",
+                "url": "/d/<drilldown-uid>?var-<var>=${__value.text:percentencode}&${__url_time_range}"
               }
             ]
           }
@@ -89,14 +89,14 @@
     {
       "datasource": {
         "type": "grafana-clickhouse-datasource",
-        "uid": "clickhouse"
+        "uid": "<ds-uid>"
       },
       "format": 1,
       "queryType": "sql",
-      "rawSql": "SELECT\n  u.***REMOVED*** AS `客户`,\n  round(sum(b.***REMOVED***), 4) AS `月账单`\nFROM ***REMOVED*** AS b\nLEFT JOIN ***REMOVED*** AS u ON b.user_id = u.id\nWHERE $__timeFilter(b.created_at)\n  AND b.***REMOVED*** = 'personal'\n  AND b.status = 'success'\n  AND u.***REMOVED*** != ''\nGROUP BY u.***REMOVED***\nORDER BY `月账单` DESC\nLIMIT ${topn}",
+      "rawSql": "SELECT\n  d.<label_col> AS `<标签列别名>`,\n  round(sum(f.<value_col>), 4) AS `<数值列别名>`\nFROM <schema>.<fact_table> AS f\nLEFT JOIN <schema>.<dim_table> AS d ON f.<join_key> = d.<join_key>\nWHERE $__timeFilter(f.<time_col>)\n  AND <业务过滤条件：由用户确认口径后填入，skill 不预置>\nGROUP BY d.<label_col>\nORDER BY `<数值列别名>` DESC\nLIMIT ${topn}",
       "refId": "A"
     }
   ],
-  "title": "客户月账单占比 TOP ${topn}",
+  "title": "<标题> TOP ${topn}",
   "type": "piechart"
 }

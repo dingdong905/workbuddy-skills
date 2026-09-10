@@ -1,6 +1,6 @@
 ---
 name: grafana-pie-chart
-description: 在 Grafana 中创建/修改饼图（piechart）面板的标准化流程，基于 ClickHouse SQL 数据源。适用于"画饼图 / 做占比图 / TOP N 饼图 / 改饼图"等需求。固化了数据映射（values=true）、扇区无文字、图例表格、SQL TOP N 等已踩坑验证的硬性约束，以及该 Grafana 实例的 API 提交方式与代理限制。
+description: 在 Grafana 中创建/修改饼图（piechart）面板的标准化流程，基于 ClickHouse SQL 数据源。适用于"画饼图 / 做占比图 / TOP N 饼图 / 改饼图"等需求。固化了数据映射（values=true）、扇区无文字、图例表格、SQL TOP N 等已踩坑验证的硬性约束，以及 API 提交方式与代理/截图服务的环境限制应对。实例地址、凭据、表名等环境细节一律用占位符，运行时从用户处获取。
 agent_created: true
 ---
 
@@ -35,7 +35,7 @@ agent_created: true
 
 ## 标准面板 JSON 模板
 
-从 `assets/pie-panel-v6.json` 复制完整面板定义，仅需替换：标题、gridPos、id、targets 中的 rawSql、以及需要保留下钻时的 links。模板与当前线上版本（***REMOVED*** v6）完全一致。
+从 `assets/pie-panel-v6.json` 复制完整面板定义，替换占位符：标题、gridPos、id、targets 中的 rawSql（表名/列名/业务过滤条件）、数值列与标签列的 byName override、下钻链接 uid。模板结构已在线上实例验证（v6 定稿），不含任何环境特定信息。
 
 ## 工作流程
 
@@ -46,13 +46,13 @@ agent_created: true
 - `$__timeFilter(col)` → `col >= toDateTime(intDiv(<from_ms>,1000)) AND col <= toDateTime(intDiv(<to_ms>,1000))`
 - `${var}` → 实际值（如 topn=10）
 
-ClickHouse target 结构：`{"datasource": {"type": "grafana-clickhouse-datasource", "uid": "clickhouse"}, "format": 1, "queryType": "sql", "rawSql": "..."}`。响应在 `results.A.frames[0].data.values`（列优先数组）。详细 API 说明见 `references/grafana-instance.md`。
+ClickHouse target 结构：`{"datasource": {"type": "grafana-clickhouse-datasource", "uid": "<ds-uid>"}, "format": 1, "queryType": "sql", "rawSql": "..."}`。响应在 `results.A.frames[0].data.values`（列优先数组）。数据源 uid 及 API 细节见 `references/grafana-instance.md`。
 
 ### 2. 组装并提交仪表板
 
 - payload：`{"dashboard": {..., "uid": "<新uid>", "version": 0}, "folderId": 0, "overwrite": true}`
-- **必须用 curl 提交**：`curl -u <auth> -X POST -H "Content-Type: application/json" --data-binary @<file>.json http://<grafana>/api/dashboards/db`
-- **禁止用 Python urllib POST**：该实例前置代理会拦截（即使带 User-Agent 也返回 502；GET 不受影响）。Python 脚本内用 subprocess 调 curl。
+- **必须用 curl 提交**：`curl -u <auth> -X POST -H "Content-Type: application/json" --data-binary @<file>.json http://<grafana-host>/api/dashboards/db`
+- **禁用 Python urllib 直接 POST**：部分环境的前置代理会拦截（即使带 User-Agent 也返回 502；GET 不受影响）。遇 502 先怀疑代理，改用 curl 或 Python subprocess 调 curl。
 
 ### 3. 回读验证
 
@@ -60,7 +60,7 @@ ClickHouse target 结构：`{"datasource": {"type": "grafana-clickhouse-datasour
 
 ## 注意事项
 
-- 该实例 `/render` 截图服务故障（返回固定占位图），不要用它做视觉验证，以数据验证代替。
+- `/render` 截图服务在部分环境不可用（返回固定占位图），不要用它做视觉验证，统一以数据回读验证代替。
 - 凭据不落盘：脚本中从环境变量 `GRAFANA_AUTH`（格式 `user:password`）读取。
-- 凭据、实例地址等环境细节见 `references/grafana-instance.md`。
+- 实例地址、凭据、表名、业务口径等环境细节的占位符约定见 `references/grafana-instance.md`。
 - 改动已有面板时，改动前先 GET 保存本地备份 JSON。
