@@ -14,10 +14,19 @@ WorkBuddy 与 Codex 各自维护完整、原生兼容的一套 Skill，不做跨
 | --- | --- |
 | concise-output | 控制输出规模，避免长回复被截断 |
 | context-budget | 审计并减少上下文与 Token 浪费 |
+| data-report-deck | 设计 KPI、经营复盘和数据分析型演示 |
+| deck-review | 审阅、评分并修复演示文稿 |
 | evidence-research | 多来源检索、证据分级与交叉核验 |
+| executive-decision-deck | 设计管理层审批和资源决策型演示 |
+| grafana-pie-chart | Grafana 饼图面板的标准化创建与修改流程 |
 | memory-curator | 管理 WorkBuddy 的持久记忆和任务交接 |
+| pitch-deck | 设计面向投资人的创业融资演示 |
+| presentation-studio | 为未明确品类的演示形成 brief 并路由 |
+| research-presentation | 设计论文汇报和研究进展演示 |
 | stock-deep-research | A 股基本面、财报、估值和深度研究 |
+| teaching-deck | 设计课程、工作坊和知识教学型演示 |
 | tech-mentor | 面向知识、技能与修养主题的学以致用教学流程 |
+| technical-explainer-deck | 设计技术体系、架构和工程选型演示 |
 
 tech-mentor 附带 MetalLB 教学主题，可作为构建其他课程的样板。
 

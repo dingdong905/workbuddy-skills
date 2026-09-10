@@ -1,0 +1,102 @@
+{
+  "datasource": {
+    "type": "grafana-clickhouse-datasource",
+    "uid": "clickhouse"
+  },
+  "fieldConfig": {
+    "defaults": {
+      "color": {
+        "mode": "palette-classic"
+      },
+      "custom": {
+        "hideFrom": {
+          "legend": false,
+          "tooltip": false,
+          "viz": false
+        }
+      },
+      "decimals": 2,
+      "mappings": [],
+      "unit": "none"
+    },
+    "overrides": [
+      {
+        "matcher": {
+          "id": "byName",
+          "options": "月账单"
+        },
+        "properties": [
+          {
+            "id": "decimals",
+            "value": 2
+          }
+        ]
+      },
+      {
+        "matcher": {
+          "id": "byName",
+          "options": "客户"
+        },
+        "properties": [
+          {
+            "id": "links",
+            "value": [
+              {
+                "targetBlank": false,
+                "title": "下钻查看该客户明细",
+                "url": "/d/***REMOVED***?var-user=${__value.text:percentencode}&${__url_time_range}"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "gridPos": {
+    "h": 12,
+    "w": 24,
+    "x": 0,
+    "y": 0
+  },
+  "id": 1,
+  "options": {
+    "displayLabels": [],
+    "legend": {
+      "calcs": [],
+      "displayMode": "table",
+      "placement": "right",
+      "showLegend": true,
+      "values": [
+        "value",
+        "percent"
+      ]
+    },
+    "pieType": "pie",
+    "reduceOptions": {
+      "calcs": [
+        "lastNotNull"
+      ],
+      "fields": "",
+      "values": true
+    },
+    "tooltip": {
+      "hideZeros": false,
+      "mode": "single",
+      "sort": "none"
+    }
+  },
+  "targets": [
+    {
+      "datasource": {
+        "type": "grafana-clickhouse-datasource",
+        "uid": "clickhouse"
+      },
+      "format": 1,
+      "queryType": "sql",
+      "rawSql": "SELECT\n  u.***REMOVED*** AS `客户`,\n  round(sum(b.***REMOVED***), 4) AS `月账单`\nFROM ***REMOVED*** AS b\nLEFT JOIN ***REMOVED*** AS u ON b.user_id = u.id\nWHERE $__timeFilter(b.created_at)\n  AND b.***REMOVED*** = 'personal'\n  AND b.status = 'success'\n  AND u.***REMOVED*** != ''\nGROUP BY u.***REMOVED***\nORDER BY `月账单` DESC\nLIMIT ${topn}",
+      "refId": "A"
+    }
+  ],
+  "title": "客户月账单占比 TOP ${topn}",
+  "type": "piechart"
+}
