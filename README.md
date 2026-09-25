@@ -18,6 +18,7 @@ WorkBuddy 与 Codex 各自维护完整、原生兼容的一套 Skill，不做跨
 | deck-review | 审阅、评分并修复演示文稿 |
 | evidence-research | 多来源检索、证据分级与交叉核验 |
 | executive-decision-deck | 设计管理层审批和资源决策型演示 |
+| feishu-document-output | 把中文内容整理成结构清晰、可执行且适合飞书的 Markdown 文档 |
 | grafana-pie-chart | Grafana 饼图面板的标准化创建与修改流程 |
 | memory-curator | 管理 WorkBuddy 的持久记忆和任务交接 |
 | pitch-deck | 设计面向投资人的创业融资演示 |
