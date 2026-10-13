@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "cases": [
+    {
+      "id": "clipboard-screenshot-20261008",
+      "kind": "observed",
+      "files": [
+        "case-2026-10-08.md"
+      ],
+      "scenario": "模型不支持读图、需要本地 OCR 识别剪贴板截图/界面文字时",
+      "preconditions": "专用 venv（example/env.md）存在且 12 依赖包完好；图片为本地可访问路径",
+      "expected": "按版面顺序输出每行置信度+文本；中文界面字体置信度通常 >0.9",
+      "limits": "单张识别；表格不还原结构；手写体效果一般；置信度 <0.7 需人工核对",
+      "source": "2026-10-08 本机实测，端到端一次通过",
+      "verified_at": "2026-10-08"
+    },
+    {
+      "id": "env-rebuild",
+      "kind": "observed",
+      "files": [
+        "env.md"
+      ],
+      "scenario": "venv 损坏/机器重装后需要离线重建 OCR 环境，或排查 pip 装包失败时",
+      "preconditions": "wheel 备份目录存在；或按文档用 curl --noproxy 从清华镜像重新下载",
+      "expected": "pip --no-index --find-links 本地安装 12 包全部成功；run_rapidocr.py 识别正常",
+      "limits": "本机路径仅适用于当前 Windows 机器；pip 在线装在本机沙箱内不可用（原因见 env.md）",
+      "source": "2026-10-08 安装过程实证记录",
+      "verified_at": "2026-10-08"
+    }
+  ]
+}

@@ -48,3 +48,7 @@ tech-mentor 附带 MetalLB 教学主题，可作为构建其他课程的样板�
 ## 来源与许可
 
 仓库以 MIT License 发布。部分 Skill 基于既有开源 Skill 进行 WorkBuddy 适配，详见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。
+
+## Skill 抽象与案例治理
+
+通用规则保留在 SKILL.md / references；具体案例统一放各 Skill 的 example/，并登记 index.json。AI 生成和导入遵循 [仓库规范](docs/skill-governance.md) 与 AGENTS.md，交付前运行 python -B scripts/lint_skill_governance.py；CI 执行相同检查，语义通用性另行复核。

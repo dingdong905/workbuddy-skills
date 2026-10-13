@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "cases": [
+    {
+      "id": "local-coordinates",
+      "kind": "observed",
+      "files": [
+        "local-coordinates.md"
+      ],
+      "scenario": "需要定位本机 bk7219 分析工具脚本库归档时",
+      "preconditions": "仅在本机（该 Windows 路径所在机器）有效；使用前确认目录仍存在",
+      "expected": "仅作路径坐标引用，不作为部署事实或参数来源",
+      "limits": "机器特定绝对路径，换机后失效；不外推到其他环境",
+      "source": "从 SKILL.md 关键坐标节迁出（治理检查要求机器特定路径入 example/）",
+      "verified_at": "unknown"
+    }
+  ]
+}
