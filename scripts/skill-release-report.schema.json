@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Skill release validation report v1",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "platform",
+    "kind",
+    "status",
+    "subjects",
+    "inputs"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "platform": {
+      "enum": [
+        "codex",
+        "workbuddy"
+      ]
+    },
+    "kind": {
+      "enum": [
+        "structure",
+        "unit",
+        "model_behavior",
+        "platform_native"
+      ]
+    },
+    "status": {
+      "enum": [
+        "pass",
+        "fail",
+        "not_run",
+        "pending_review"
+      ]
+    },
+    "subjects": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "skill",
+          "sha256"
+        ],
+        "properties": {
+          "skill": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          }
+        }
+      }
+    },
+    "inputs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "path",
+          "sha256"
+        ],
+        "properties": {
+          "path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          }
+        }
+      }
+    }
+  }
+}

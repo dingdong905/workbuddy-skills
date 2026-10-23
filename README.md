@@ -52,3 +52,7 @@ tech-mentor 附带 MetalLB 教学主题，可作为构建其他课程的样板�
 ## Skill 抽象与案例治理
 
 通用规则保留在 SKILL.md / references；具体案例统一放各 Skill 的 example/，并登记 index.json。AI 生成和导入遵循 [仓库规范](docs/skill-governance.md) 与 AGENTS.md，交付前运行 python -B scripts/lint_skill_governance.py；CI 执行相同检查，语义通用性另行复核。
+
+## 内容版本与安装验收
+
+完整目录哈希、安装漂移、结构/单测/模型/平台证据分别记录，选择性替换前核对旧版本并备份。命令见 [版本与安装契约](docs/skill-release-contract.md)。未安装不等于失败，Codex 模型结果不代表 WorkBuddy 原生验收。
